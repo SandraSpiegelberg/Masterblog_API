@@ -28,7 +28,8 @@ POSTS = [
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     """Function to get the posts. The posts can be sorted by 
-    title or content in ascending or descending order."""
+    title or content in ascending or descending order.
+    :return: List of posts, possibly sorted"""
     sort = request.args.get('sort')
     direction = request.args.get('direction')
 
@@ -48,7 +49,8 @@ def get_posts():
 
 @app.route('/api/posts', methods=['POST'])
 def add_post():
-    """Function to add a new post."""
+    """Function to add a new post.
+    :return: The newly created post with its ID"""
     if not request.is_json or 'title' not in request.json or 'content' not in request.json:
         return jsonify({'error': 'Invalid input'}), 400
 
@@ -60,7 +62,9 @@ def add_post():
 
 @app.route('/api/posts/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
-    """Function to delete a post by ID."""
+    """Function to delete a post by ID.
+    :param post_id: ID of the post to delete
+    :return: Success message or error message if post not found"""
     for post in POSTS[:]:
         if post['id'] == post_id:
             POSTS.remove(post)
@@ -70,7 +74,9 @@ def delete_post(post_id):
 
 @app.route('/api/posts/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
-    """Function to update a post by ID."""
+    """Function to update a post by ID.
+    :param post_id: ID of the post to update
+    :return: Updated post or error message if post not found"""
     for post in POSTS:
         if post['id'] == post_id:
             post.update(request.get_json())
@@ -80,7 +86,8 @@ def update_post(post_id):
 
 @app.route('/api/posts/search', methods=['GET'])
 def search_posts():
-    """Function to search posts by title."""
+    """Function to search posts by title.
+    :return: List of posts that match the search criteria"""
     title = request.args.get('title', '').lower()
     content = request.args.get('content', '').lower()
     search_lst = []
@@ -90,11 +97,8 @@ def search_posts():
         match_content = content in post['content'].lower() if content else True
 
         if match_title and match_content:
-            search_lst.append(post)
-
-            
+            search_lst.append(post)       
     return jsonify(search_lst), 200
-
 
 
 if __name__ == '__main__':
