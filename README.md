@@ -9,9 +9,9 @@ To install this project, clone the repository and install dependencies in requir
 
 ## Usage
 
-To use this project, run two files in separated terminals - `backend_app.py` and `frontend_app.py`. You can follow the given link in the terminal with the `frontend_app.py`. Currently you can put the URL of the backend on the blog posts website of the frontend and loads posts. Then you can see dummy posts which are saved in the variable `POSTS` in `backend_app.py`. You can use the buttons to add new posts or delete posts. For sorting, searching or updating posts you use the URL from the backend part or you use tools like postman.
-Sorting example: `http://localhost:5002/api/posts?sort=title&direction=asc`
-Search example: `http://localhost:5002/api/posts/search?title=first`
+To use this project, run two files in separated terminals - `backend_app.py` and `frontend_app.py`. You can follow the given link in the terminal with the `frontend_app.py`. Currently you can put the URL of the backend on the blog posts website of the frontend and loads posts. Then you can see dummy posts which are saved in the variable `POSTS` in `backend_app.py`. You can use the buttons to add new posts or delete posts. For sorting, searching or updating posts you use the URL from the backend part or you use tools like postman.  
+Sorting example: `http://localhost:5002/api/posts?sort=title&direction=asc`  
+Search example: `http://localhost:5002/api/posts/search?title=first`  
 You can also use the API Documentation `HTTP://localhost:5002/api/docs`. (if `backand_app.py` is running)
 
 
