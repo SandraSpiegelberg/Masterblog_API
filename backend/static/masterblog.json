@@ -1,0 +1,171 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Masterblog API",
+      "version": "1.0.0"
+    },
+    "host": "localhost:5002",
+    "basePath": "/",
+    "schemes": ["http"],
+    "tags": [
+        {
+        "name": "Post",
+        "description": "Post API - CRUD"
+        }
+    ],
+    "paths": {
+        "/api/posts": {
+            "get": {
+                "summary": "Returns all posts with optional sorting by title or content",
+                "produces": ["application/json"],
+                "tags": ["Post"],
+                "parameters": [
+                    {
+                    "name": "sort",
+                    "in": "query",
+                    "type": "string",
+                    "enum": ["title", "content"],
+                    "description": "Sort posts by title or content"
+                    },
+                    {
+                    "name": "direction",
+                    "in": "query",
+                    "type": "string",
+                    "enum": ["asc", "desc"],
+                    "description": "Sort direction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid sort or direction parameter"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new post",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "tags": ["Post"],
+                "parameters": [
+                    {
+                    "name": "body",
+                    "in": "body",
+                    "required": true,
+                    "schema": { "$ref": "#/definitions/NewPost" }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Post created",
+                        "schema": { "$ref": "#/definitions/Post" }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/posts/{post_id}":{
+            "delete": {
+                "summary": "Delete a post by ID",
+                "produces": ["application/json"],
+                "tags": ["Post"],
+                "parameters": [
+                    {
+                    "name": "post_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post deleted"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a post by ID",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "tags": ["Post"],
+                "parameters": [
+                    {
+                    "name": "post_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                    },
+                    {
+                    "name": "body",
+                    "in": "body",
+                    "required": true,
+                    "schema": { "$ref": "#/definitions/NewPost" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post updated",
+                        "schema": { "$ref": "#/definitions/Post" }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/search": {
+            "get": {
+                "summary": "Search posts by title or content",
+                "tags": ["Post"],
+                "parameters": [
+                    {
+                    "name": "title",
+                    "in": "query",
+                    "type": "string",
+                    "description": "Search by title"
+                    },
+                    {
+                    "name": "content",
+                    "in": "query",
+                    "type": "string",
+                    "description": "Search by content"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "list",
+                            "items": { "$ref": "#/definitions/Post" }
+                        }
+                    }
+                }
+            }
+        }  
+    },
+    "definitions": {
+        "Post": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "integer" },
+                "title": { "type": "string" },
+                "content": { "type": "string" }
+            }
+        },
+        "NewPost": {
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "content": { "type": "string" }
+            },
+            "required": ["title", "content"]
+        }
+    }
+}
