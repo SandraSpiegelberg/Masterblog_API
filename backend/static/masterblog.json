@@ -142,7 +142,7 @@
                     "200": {
                         "description": "Successful operation",
                         "schema": {
-                            "type": "list",
+                            "type": "array",
                             "items": { "$ref": "#/definitions/Post" }
                         }
                     }
