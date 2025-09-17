@@ -55,7 +55,7 @@ def add_post():
         return jsonify({'error': 'Invalid input'}), 400
 
     new_post = request.get_json()
-    new_post['id'] = max(post['id'] for post in POSTS) + 1 if POSTS else 1
+    new_post['id'] = max((post["id"] for post in POSTS), default=0) + 1
     POSTS.append(new_post)
     return jsonify(new_post), 201
 
@@ -68,7 +68,10 @@ def delete_post(post_id):
     for post in POSTS[:]:
         if post['id'] == post_id:
             POSTS.remove(post)
-            return jsonify({'message': f'Post with id {post_id} has been deleted successfully.'}), 200
+            return jsonify({'message': (
+                                f'Post with id {post_id} has been deleted successfully.'
+                                )
+                            }), 200
     return jsonify({'message': f'Post with id {post_id} was not found.'}), 404
 
 
@@ -97,7 +100,7 @@ def search_posts():
         match_content = content in post['content'].lower() if content else True
 
         if match_title and match_content:
-            search_lst.append(post)       
+            search_lst.append(post)
     return jsonify(search_lst), 200
 
 
